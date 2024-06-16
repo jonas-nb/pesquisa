@@ -59,7 +59,7 @@ const EndQuest = () => {
           {vereador}
         </li>
         <li>
-          <span className="font-extrabold">Prefeito Selecionado:</span>{" "}
+          <span className="font-extrabold">Prefeito Selecionado:</span>
           {prefeito}
         </li>
       </ul>
