@@ -27,8 +27,8 @@ const CadastroVereador = () => {
       );
 
       if (respostaSistema) {
-        // Adicionar um documento à coleção 'Vereadorouro'
-        await addDoc(collection(db, "Vereadorouro"), {
+        // Adicionar um documento à coleção 'Vereadores'
+        await addDoc(collection(db, "ListaVereadores"), {
           endereco: vereadorNome,
         });
 

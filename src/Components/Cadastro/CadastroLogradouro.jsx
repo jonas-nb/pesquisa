@@ -37,7 +37,7 @@ const CadastroLogradouro = () => {
         }
 
         // Adicionar um documento à coleção 'Logradouro' no Firestore
-        await addDoc(collection(db, "Logradouro"), {
+        await addDoc(collection(db, "ListaLogradouro"), {
           endereco: endLogradouro,
         });
 

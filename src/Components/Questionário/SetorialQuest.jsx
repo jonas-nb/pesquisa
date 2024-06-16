@@ -5,42 +5,71 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { initializeApp } from "firebase/app";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 
-//iniciando firebase
+// Iniciando Firebase
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyDlVCzk3svmRDS0MrKnsrvvPcYn4jQ_tjk",
   authDomain: "pesquisa-f6306.firebaseapp.com",
   projectId: "pesquisa-f6306",
 });
 
-//instanciando o firebase
+// Instanciando o Firebase
 const db = getFirestore(firebaseApp);
 
 const SetorialQuest = () => {
   const { bairro, setBairro } = useContext(Mycontext);
   const [data, setData] = useState([]);
 
-  //guarda a informação e faz op upload para api
-
+  // Guarda a informação e faz o upload para a API
   const handleChange = (e) => {
     setBairro(e.target.value);
   };
 
-  //percorrendo as informações de logradouro na api para mostrar nas opções do menuItem
+  // Função para carregar dados do cache
+  const loadDataFromCache = async () => {
+    if ("caches" in window) {
+      const cache = await caches.open("pesquisaCache");
+      const cachedResponse = await cache.match("/logradouroData");
+      if (cachedResponse) {
+        const cachedData = await cachedResponse.json();
+        setData(cachedData);
+      }
+    }
+  };
+
+  // Percorrendo as informações de logradouro na API para mostrar nas opções do MenuItem
   useEffect(() => {
     const respostaDoLogradouro = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "Logradouro"));
-        setData(
-          querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        );
+        const querySnapshot = await getDocs(collection(db, "ListaLogradouro"));
+        const logradouroData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setData(logradouroData);
+
+        // Salvar os dados no cache
+        if ("caches" in window) {
+          const cache = await caches.open("pesquisaCache");
+          cache.put(
+            "/logradouroData",
+            new Response(JSON.stringify(logradouroData))
+          );
+        }
       } catch (error) {
-        console.log(error);
+        console.log(
+          "Erro ao recuperar dados do Firebase, tentando carregar do cache:",
+          error
+        );
+        // Tentar carregar do cache se falhar ao recuperar do Firebase
+        loadDataFromCache();
       }
     };
 
-    //chamada da função
+    // Chamada da função
     respostaDoLogradouro();
   }, []);
+
   const responseEndereco = data.map(({ endereco }) => endereco);
 
   return (
@@ -70,7 +99,7 @@ const SetorialQuest = () => {
       </FormControl>
       <Link to="/cadastro-logradouro">
         <button className="border hover:border hover:border-black text-black bg-slate-400">
-          Adcionar um logradouro
+          Adicionar um logradouro
         </button>
       </Link>
       <div className="flex justify-center gap-10 mt-10">
@@ -81,7 +110,7 @@ const SetorialQuest = () => {
         </Link>
         <Link to="/vereador-quest">
           <button className="border hover:border hover:border-black text-black bg-slate-400">
-            Avança
+            Avançar
           </button>
         </Link>
       </div>

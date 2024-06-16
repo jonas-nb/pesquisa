@@ -33,6 +33,11 @@ const VereadorQuest = () => {
           <MenuItem value="Yure Alberto">Yure Alberto</MenuItem>
         </Select>
       </FormControl>
+      <Link to="/cadastro-vereador">
+        <button className="border hover:border hover:border-black text-black bg-slate-400">
+          Adcionar um verador
+        </button>
+      </Link>
       <div className="flex justify-center gap-10 mt-10">
         <Link to={-1}>
           <button className="border hover:border hover:border-black text-black bg-slate-400">
