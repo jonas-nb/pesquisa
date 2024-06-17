@@ -1,11 +1,43 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Mycontext } from "./ContextQuest";
+import { initializeApp } from "firebase/app";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+
+// Inicializando Firebase
+const firebaseApp = initializeApp({
+  apiKey: "AIzaSyDlVCzk3svmRDS0MrKnsrvvPcYn4jQ_tjk",
+  authDomain: "pesquisa-f6306.firebaseapp.com",
+  projectId: "pesquisa-f6306",
+});
+// Instanciando o Firestore
+const db = getFirestore(firebaseApp);
 
 const VereadorQuest = () => {
   const { vereador, setVereador } = useContext(Mycontext);
+  const [vereadores, setVereadores] = useState([]);
 
+  // Função para carregar dados dos vereadores do Firestore
+  useEffect(() => {
+    const carregarVereadores = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "ListaVereadores"));
+        const vereadoresData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setVereadores(vereadoresData);
+      } catch (error) {
+        console.error("Erro ao carregar vereadores:", error);
+      }
+    };
+
+    carregarVereadores();
+  }, [db]);
+
+  const responseVereador = vereadores.map(({ nome }) => nome);
+  console.log(responseVereador);
   const handleChange = (e) => {
     setVereador(e.target.value);
   };
@@ -28,14 +60,16 @@ const VereadorQuest = () => {
             },
           }}
         >
-          <MenuItem value="Calleri">Calleri</MenuItem>
-          <MenuItem value="Gabigol">Gabigol</MenuItem>
-          <MenuItem value="Yure Alberto">Yure Alberto</MenuItem>
+          {vereadores.map((vereador) => (
+            <MenuItem key={vereador.id} value={vereador.nome}>
+              {vereador.nome}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Link to="/cadastro-vereador">
         <button className="border hover:border hover:border-black text-black bg-slate-400">
-          Adcionar um verador
+          Adicionar um vereador
         </button>
       </Link>
       <div className="flex justify-center gap-10 mt-10">
@@ -46,7 +80,7 @@ const VereadorQuest = () => {
         </Link>
         <Link to="/prefeito-quest">
           <button className="border hover:border hover:border-black text-black bg-slate-400">
-            Avança
+            Avançar
           </button>
         </Link>
       </div>

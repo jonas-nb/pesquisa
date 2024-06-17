@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 const HomeQuest = () => {
   return (
-    <div className="flex flex-col items-center justify-around">
+    <div className="flex flex-col items-center justify-center gap-20">
       <div>
         <h1 className="text-center text-[2.2rem] text-zinc-600 uppercase">
           Pesquisa Eleitoral 2024

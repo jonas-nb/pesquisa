@@ -29,7 +29,7 @@ const CadastroVereador = () => {
       if (respostaSistema) {
         // Adicionar um documento à coleção 'Vereadores'
         await addDoc(collection(db, "ListaVereadores"), {
-          endereco: vereadorNome,
+          nome: vereadorNome,
         });
 
         // Limpar o campo depois de enviar

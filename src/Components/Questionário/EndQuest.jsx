@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Mycontext } from "./ContextQuest";
 import { Link, useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
@@ -16,7 +16,18 @@ const db = getFirestore(firebaseApp);
 
 const EndQuest = () => {
   const { prefeito, bairro, vereador } = useContext(Mycontext);
+  let [endState, setEndState] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (bairro === "" || vereador === "" || prefeito === "") {
+      setEndState(false);
+    } else {
+      setEndState(true);
+    }
+  }, [bairro, vereador, prefeito]); // Dependências do useEffect
+
+  console.log(endState);
 
   const saveDataCache = () => {
     const dataToSave = { prefeito, bairro, vereador };
@@ -49,36 +60,58 @@ const EndQuest = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-10">
-      <p className="text-[2.5rem] text-center">Pesquisa concluída</p>
-      <ul className="text-[1.2rem]">
-        <li>
-          <span className="font-extrabold">Bairro Selecionado:</span> {bairro}
-        </li>
-        <li>
-          <span className="font-extrabold">Vereador Selecionado:</span>{" "}
-          {vereador}
-        </li>
-        <li>
-          <span className="font-extrabold">Prefeito Selecionado:</span>
-          {prefeito}
-        </li>
-      </ul>
-      <div className="flex justify-center gap-10 mt-10">
-        <Link to={-1}>
-          <button className="border hover:border hover:border-black text-black bg-slate-400">
-            Voltar
-          </button>
-        </Link>
+      <div>
+        {endState === true ? (
+          <div className="flex flex-col items-center ">
+            <p className="text-[1.5rem] text-center font-bold p-1 mt-12">
+              Pesquisa concluída com sucesso!
+            </p>
+            <ul className="text-[1.2rem] list-disc">
+              <li>
+                <div className="font-medium mt-5">Logradouro Selecionado</div>
+                <div className="font-extrabold">{bairro}</div>
+              </li>
+              <li>
+                <div className="font-medium">Vereador Selecionado</div>
+                <div className="font-extrabold">{vereador}</div>
+              </li>
+              <li>
+                <div className="font-medium">Prefeito Selecionado</div>
+                <div className="font-extrabold">{prefeito}</div>
+              </li>
+            </ul>
+            <div className="flex justify-center gap-10 mt-10">
+              <Link to={-1}>
+                <button className="border hover:border hover:border-black text-black bg-slate-400">
+                  Voltar
+                </button>
+              </Link>
 
-        <button
-          onClick={() => {
-            saveDataCache();
-            saveDataFirebase();
-          }}
-          className="border hover:border hover:border-black text-black bg-slate-400"
-        >
-          Concluir
-        </button>
+              <button
+                onClick={() => {
+                  saveDataCache();
+                  saveDataFirebase();
+                }}
+                className="border hover:border hover:border-black text-black bg-slate-400"
+              >
+                Concluir
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col justify-center items-center p-3 text-center text-red-500">
+            <h1>Erro</h1>
+            <p className="m-7">
+              Existem campos em brancos na pesquisa por favor clicar no botão
+              abaixo para reiniciar a mesma.
+            </p>
+            <Link to="/">
+              <button className="border hover:border hover:border-black text-black bg-slate-400">
+                Reiniciar Pesquisa
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

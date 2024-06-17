@@ -3,9 +3,9 @@ import React, { createContext, useState } from "react";
 export const Mycontext = createContext();
 
 export const ProviderQuest = ({ children }) => {
-  const [bairro, setBairro] = useState("Bairro1");
-  const [vereador, setVereador] = useState("Calleri");
-  const [prefeito, setPrefeito] = useState("Cristiano Ronaldo");
+  const [bairro, setBairro] = useState("");
+  const [vereador, setVereador] = useState("");
+  const [prefeito, setPrefeito] = useState("");
 
   //console para ver
   console.log(bairro, vereador, prefeito);

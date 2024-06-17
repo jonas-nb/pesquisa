@@ -1,14 +1,48 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Mycontext } from "./ContextQuest";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Mycontext } from "./ContextQuest";
+import { initializeApp } from "firebase/app";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+
+// Inicializando Firebase
+const firebaseApp = initializeApp({
+  apiKey: "AIzaSyDlVCzk3svmRDS0MrKnsrvvPcYn4jQ_tjk",
+  authDomain: "pesquisa-f6306.firebaseapp.com",
+  projectId: "pesquisa-f6306",
+});
+
+// Instanciando o Firestore
+const db = getFirestore(firebaseApp);
 
 const PrefeitoQuest = () => {
   const { prefeito, setPrefeito } = useContext(Mycontext);
+  const [prefeitos, setPrefeitos] = useState([]);
+
+  // Função para carregar dados dos prefeitos do Firestore
+  useEffect(() => {
+    const carregarPrefeitos = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "ListaPrefeito"));
+        const prefeitosData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPrefeitos(prefeitosData);
+      } catch (error) {
+        console.error("Erro ao carregar prefeitos:", error);
+      }
+    };
+
+    carregarPrefeitos();
+  }, [db]);
 
   const handleChange = (e) => {
     setPrefeito(e.target.value);
   };
+
+  const responsePrefeitos = prefeitos.map(({ nome }) => nome);
+  console.log(responsePrefeitos);
 
   return (
     <div className="flex flex-col items-center justify-center gap-10">
@@ -28,14 +62,16 @@ const PrefeitoQuest = () => {
             },
           }}
         >
-          <MenuItem value="Cristiano Ronaldo">Cristiano Ronaldo</MenuItem>
-          <MenuItem value="Mbappe">Mbappe</MenuItem>
-          <MenuItem value="Messi">Messi</MenuItem>
+          {prefeitos.map((prefeito) => (
+            <MenuItem key={prefeito.id} value={prefeito.nome}>
+              {prefeito.nome}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Link to="/cadastro-prefeito">
         <button className="border hover:border hover:border-black text-black bg-slate-400">
-          Adcionar um prefeito
+          Adicionar um prefeito
         </button>
       </Link>
       <div className="flex justify-center gap-10 mt-10">
@@ -46,7 +82,7 @@ const PrefeitoQuest = () => {
         </Link>
         <Link to="/end-quest">
           <button className="border hover:border hover:border-black text-black bg-slate-400">
-            Avança
+            Avançar
           </button>
         </Link>
       </div>

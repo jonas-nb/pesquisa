@@ -71,10 +71,10 @@ const SetorialQuest = () => {
   }, []);
 
   const responseEndereco = data.map(({ endereco }) => endereco);
-
+  console.log(responseEndereco);
   return (
     <div className="flex flex-col items-center justify-center gap-10">
-      <p className="text-[2.5rem] text-center">Selecionar um setor</p>
+      <p className="text-[2.5rem] text-center w-[80%]">Selecionar um setor</p>
       <FormControl fullWidth sx={{ maxWidth: 300 }}>
         <InputLabel id="setorial-select-label">Setor</InputLabel>
         <Select
@@ -82,6 +82,7 @@ const SetorialQuest = () => {
           id="setorial-select"
           value={bairro}
           label="Setor"
+          required
           onChange={handleChange}
           sx={{
             backgroundColor: "#f0f0f0", // Cor de fundo do Select
