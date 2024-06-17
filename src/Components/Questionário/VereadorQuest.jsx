@@ -27,6 +27,9 @@ const VereadorQuest = () => {
           id: doc.id,
           ...doc.data(),
         }));
+
+        // Ordenar vereadores por nome antes de atualizar o estado
+        vereadoresData.sort((a, b) => (a.nome < b.nome ? -1 : 1));
         setVereadores(vereadoresData);
       } catch (error) {
         console.error("Erro ao carregar vereadores:", error);

@@ -68,6 +68,7 @@ const CadastroPrefeito = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-10">
       <h1 className="text-[2.5rem] text-center">Cadastramento do Prefeito</h1>
+
       <form
         onSubmit={postPrefeito}
         className="flex flex-col items-center gap-4"

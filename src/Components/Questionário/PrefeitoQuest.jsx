@@ -28,6 +28,10 @@ const PrefeitoQuest = () => {
           id: doc.id,
           ...doc.data(),
         }));
+
+        // Ordenar prefeitos por nome antes de atualizar o estado
+        prefeitosData.sort((a, b) => (a.nome < b.nome ? -1 : 1));
+
         setPrefeitos(prefeitosData);
       } catch (error) {
         console.error("Erro ao carregar prefeitos:", error);
@@ -40,9 +44,6 @@ const PrefeitoQuest = () => {
   const handleChange = (e) => {
     setPrefeito(e.target.value);
   };
-
-  const responsePrefeitos = prefeitos.map(({ nome }) => nome);
-  console.log(responsePrefeitos);
 
   return (
     <div className="flex flex-col items-center justify-center gap-10">
