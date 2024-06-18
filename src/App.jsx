@@ -10,6 +10,7 @@ import EndQuest from "./Components/Questionário/EndQuest";
 import CadastroLogradouro from "./Components/Cadastro/CadastroLogradouro";
 import CadastroVereador from "./Components/Cadastro/CadastroVereador";
 import CadastroPrefeito from "./Components/Cadastro/CadastroPrefeito";
+import QuestionnaireConclusion from "./Components/Questionário/QuestionnaireConclusion";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/cadastro-logradouro" element={<CadastroLogradouro />} />
         <Route path="/cadastro-vereador" element={<CadastroVereador />} />
         <Route path="/cadastro-prefeito" element={<CadastroPrefeito />} />
+        <Route path="/final-pesquisa" element={<QuestionnaireConclusion />} />
       </Routes>
     </div>
   );

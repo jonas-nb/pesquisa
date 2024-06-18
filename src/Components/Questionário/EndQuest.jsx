@@ -34,8 +34,7 @@ const EndQuest = () => {
     caches.open("pesquisaCache").then((cache) => {
       cache.put("/pesquisaData", new Response(JSON.stringify(dataToSave)));
     });
-    alert("Pesquisa salva no cache do dispositivo.");
-    navigate("/");
+    navigate("/final-pesquisa");
   };
 
   const saveDataFirebase = async () => {
@@ -45,15 +44,13 @@ const EndQuest = () => {
         const cacheData = await cacheDataResponse.json();
         const useCollectionRef = collection(db, "PesquisaCandidatos");
         const docRef = await addDoc(useCollectionRef, cacheData);
-        alert("Pesquisa concluída com sucesso");
         caches.delete("/pesquisaData");
-        navigate("/");
+        navigate("/final-pesquisa");
         console.log("Documento adicionado com Id", docRef.id);
       } else {
         alert("Nenhum dado do cache encontrado para enviar para o Firebase.");
       }
     } catch (error) {
-      alert("Algo deu errado");
       console.log("Erro ao adicionar documento", error);
     }
   };
@@ -64,7 +61,7 @@ const EndQuest = () => {
         {endState === true ? (
           <div className="flex flex-col items-center ">
             <p className="text-[1.5rem] text-center font-bold p-1 mt-12">
-              Pesquisa concluída com sucesso!
+              Dados Finais da Pesquisa
             </p>
             <ul className="text-[1.2rem] list-disc">
               <li>

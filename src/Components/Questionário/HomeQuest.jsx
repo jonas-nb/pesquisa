@@ -11,10 +11,10 @@ const HomeQuest = () => {
       </div>
       <Link to="/setorial-quest">
         <button className="bg-[#6C757D] hover:bg-[#343A40] text-white outline-none hover:border-none">
-          Iniciar Pesquisa
+          Iniciar Nova Pesquisa
         </button>
       </Link>
-      <div>Versão 0.0.1 (beta)</div>
+      <div>Versão 0.1.1 (beta)</div>
     </div>
   );
 };
