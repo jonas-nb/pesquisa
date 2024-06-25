@@ -70,11 +70,7 @@ const PrefeitoQuest = () => {
           ))}
         </Select>
       </FormControl>
-      <Link to="/cadastro-prefeito">
-        <button className="border hover:border hover:border-black text-black bg-slate-400">
-          Adicionar um prefeito
-        </button>
-      </Link>
+
       <div className="flex justify-center gap-10 mt-10">
         <Link to={-1}>
           <button className="border hover:border hover:border-black text-black bg-slate-400">

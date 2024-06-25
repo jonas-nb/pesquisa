@@ -1,15 +1,11 @@
-import React, { useContext } from "react";
-
-import { Mycontext } from "./Components/Questionário/ContextQuest";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import HomeQuest from "./Components/Questionário/HomeQuest";
 import SetorialQuest from "./Components/Questionário/SetorialQuest";
 import VereadorQuest from "./Components/Questionário/VereadorQuest";
 import PrefeitoQuest from "./Components/Questionário/PrefeitoQuest";
 import EndQuest from "./Components/Questionário/EndQuest";
-import CadastroLogradouro from "./Components/Cadastro/CadastroLogradouro";
-import CadastroVereador from "./Components/Cadastro/CadastroVereador";
-import CadastroPrefeito from "./Components/Cadastro/CadastroPrefeito";
+
 import QuestionnaireConclusion from "./Components/Questionário/QuestionnaireConclusion";
 
 const App = () => {
@@ -21,9 +17,6 @@ const App = () => {
         <Route path="/vereador-quest" element={<VereadorQuest />} />
         <Route path="/prefeito-quest" element={<PrefeitoQuest />} />
         <Route path="/end-quest" element={<EndQuest />} />
-        <Route path="/cadastro-logradouro" element={<CadastroLogradouro />} />
-        <Route path="/cadastro-vereador" element={<CadastroVereador />} />
-        <Route path="/cadastro-prefeito" element={<CadastroPrefeito />} />
         <Route path="/final-pesquisa" element={<QuestionnaireConclusion />} />
       </Routes>
     </div>

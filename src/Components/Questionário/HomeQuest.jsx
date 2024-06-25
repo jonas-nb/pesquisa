@@ -4,7 +4,7 @@ const HomeQuest = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-20">
       <div>
-        <h1 className="text-center text-[2.2rem] text-zinc-600 uppercase">
+        <h1 className="text-center text-[1.8rem] text-zinc-600 uppercase p-5">
           Pesquisa Eleitoral 2024
         </h1>
         <p className="text-center mt-5">Pesquisa eleições mariense 2024</p>
@@ -14,7 +14,7 @@ const HomeQuest = () => {
           Iniciar Nova Pesquisa
         </button>
       </Link>
-      <div>Versão 0.1.1 (beta)</div>
+      <div>Versão 0.2.0 (beta)</div>
     </div>
   );
 };
